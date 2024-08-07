@@ -4,7 +4,7 @@ public class Task2 {
         int b =-1;
         if(a+b>=0){
             System.out.println("Сумма положительная");
-        } else{
+        } else {
             System.out.println("Сумма отрицательная");
         }
     }

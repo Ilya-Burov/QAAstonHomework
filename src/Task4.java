@@ -4,7 +4,7 @@ public class Task4 {
         int b = 2;
         if(a>=b){
             System.out.println("a>=b");
-        } else{
+        } else {
             System.out.println("a<b");
         }
     }
