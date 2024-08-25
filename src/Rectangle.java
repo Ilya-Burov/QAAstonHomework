@@ -1,4 +1,4 @@
-public class Rectangle implements Shape {
+public class Rectangle implements RectangleShape {
     private double width, height;
     private String fillColor;
     private String borderColor;
@@ -9,12 +9,16 @@ public class Rectangle implements Shape {
         this.borderColor = borderColor;
     }
     @Override
-    public double calculatePerimeter() {
-        return 2 * (width + height);
+    public String getName() {
+        return "Прямоугольник";
     }
     @Override
-    public double calculateArea() {
-        return width * height;
+    public double getWidth() {
+        return width;
+    }
+    @Override
+    public double getHeight() {
+        return height;
     }
     @Override
     public String getFillColor() {
@@ -23,9 +27,5 @@ public class Rectangle implements Shape {
     @Override
     public String getBorderColor() {
         return borderColor;
-    }
-    @Override
-    public String getName() {
-        return "Прямоугольник";
     }
 }

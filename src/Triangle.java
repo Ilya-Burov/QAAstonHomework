@@ -1,4 +1,4 @@
-public class Triangle implements Shape {
+public class Triangle implements TriangleShape {
     private double sideA, sideB, sideC;
     private String fillColor;
     private String borderColor;
@@ -10,13 +10,20 @@ public class Triangle implements Shape {
         this.borderColor = borderColor;
     }
     @Override
-    public double calculatePerimeter() {
-        return sideA + sideB + sideC;
+    public String getName() {
+        return "Треугольник";
     }
     @Override
-    public double calculateArea() {
-        double s = calculatePerimeter() / 2;
-        return Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
+    public double getSideA() {
+        return sideA;
+    }
+    @Override
+    public double getSideB() {
+        return sideB;
+    }
+    @Override
+    public double getSideC() {
+        return sideC;
     }
     @Override
     public String getFillColor() {
@@ -25,9 +32,5 @@ public class Triangle implements Shape {
     @Override
     public String getBorderColor() {
         return borderColor;
-    }
-    @Override
-    public String getName() {
-        return "Треугольник";
     }
 }

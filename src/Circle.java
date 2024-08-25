@@ -1,4 +1,4 @@
-public class Circle implements Shape {
+public class Circle implements CircleShape {
     private double radius;
     private String fillColor;
     private String borderColor;
@@ -8,12 +8,12 @@ public class Circle implements Shape {
         this.borderColor = borderColor;
     }
     @Override
-    public double calculatePerimeter() {
-        return 2 * Math.PI * radius;
+    public String getName() {
+        return "Круг";
     }
     @Override
-    public double calculateArea() {
-        return Math.PI * radius * radius;
+    public double getRadius() {
+        return radius;
     }
     @Override
     public String getFillColor() {
@@ -22,9 +22,5 @@ public class Circle implements Shape {
     @Override
     public String getBorderColor() {
         return borderColor;
-    }
-    @Override
-    public String getName() {
-        return "Круг";
     }
 }

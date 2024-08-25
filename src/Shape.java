@@ -1,11 +1,7 @@
 public interface Shape {
-    default double calculatePerimeter() {
-        throw new UnsupportedOperationException("Метод не реализован");
-    }
-    default double calculateArea() {
-        throw new UnsupportedOperationException("Метод не реализован");
-    }
+    String getName();
     String getFillColor();
     String getBorderColor();
-    String getName();
+    double calculatePerimeter();
+    double calculateArea();
 }
