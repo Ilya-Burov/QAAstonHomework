@@ -1,5 +1,9 @@
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class FactorialTest {
     // Тест для обычного случая, где n = 5
     @Test
@@ -23,5 +27,11 @@ public class FactorialTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testFactorialOfNegativeNumber() {
         Main.factorial(-5);
+    }
+    @Test(expectedExceptions = InputMismatchException.class)
+    public void testFactorialNonIntegerInput() {
+        // Тестируем выброс InputMismatchException при вводе нецелого числа через Scanner
+        Scanner scanner = new Scanner("5.5");
+        scanner.nextInt();  // Попытка ввести дробное число вызовет исключение
     }
 }
