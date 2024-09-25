@@ -1,7 +1,4 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -37,14 +34,20 @@ public class MainPage {
     }
     public void selectServiceOption(String optionText) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Увеличено время ожидания
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='" + optionText + "']")));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
         try {
+            // Ожидание видимости элемента
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='" + optionText + "']")));
+            // Ожидание кликабельности элемента
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            // Прокрутка к элементу для его отображения на экране
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            // Пытаемся выполнить клик
             element.click();
-        } catch (Exception e) {
-            System.out.println("Failed to click the element. Trying with JavascriptExecutor");
+        } catch (ElementNotInteractableException | TimeoutException e) {
+            System.out.println("Failed to click the element: " + e.getMessage());
+            // Если стандартный клик не удался, пробуем клик с помощью JavascriptExecutor
             JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("arguments[0].click();", element);
+            js.executeScript("arguments[0].click();", driver.findElement(By.xpath("//p[text()='" + optionText + "']")));
         }
     }
     public void selectInternetOption() {
