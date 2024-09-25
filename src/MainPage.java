@@ -9,7 +9,6 @@ import java.time.Duration;
 public class MainPage {
     private WebDriver driver;
     private WebDriverWait wait;
-    private By closeButton = By.cssSelector(".header__close-button svg-icon[src='assets/images/icons/x.svg']");
     private By dropdownButton = By.cssSelector(".select__header");
     private By cookieAcceptButton = By.id("cookie-agree");
     private By blockTitleLocator = By.cssSelector(".pay__wrapper h2");
