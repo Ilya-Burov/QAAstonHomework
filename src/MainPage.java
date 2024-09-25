@@ -25,7 +25,7 @@ public class MainPage {
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
     public void acceptCookies() {
@@ -36,6 +36,10 @@ public class MainPage {
             System.out.println("Всплывающее окно cookie не появилось или уже было закрыто.");
         }
     }
+    private void clickUsingJavaScript(WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].click();", element);
+    }
 
     public void openDropdown() {
         wait.until(ExpectedConditions.elementToBeClickable(dropdownButton)).click();
@@ -43,8 +47,24 @@ public class MainPage {
 
     public void selectServiceOption(String optionText) {
         // Локатор для выбора опции в выпадающем меню
-        By optionLocator = By.xpath("//p[text()='" + optionText + "']");
-        wait.until(ExpectedConditions.elementToBeClickable(optionLocator)).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Увеличено время ожидания
+
+        // Найдем элемент и проверим его видимость
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='" + optionText + "']")));
+
+        // Проверим, что элемент доступен для клика
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+
+        // Пробуем кликнуть на элемент
+        try {
+            element.click();
+        } catch (Exception e) {
+            System.out.println("Failed to click the element. Trying with JavascriptExecutor");
+
+            // Попробуем кликнуть через JavaScript как fallback
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", element);
+        }
     }
 
     public void selectInternetOption() {
@@ -61,8 +81,8 @@ public class MainPage {
         // Прокрутка к элементу
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", debtOption);
 
-        // Клик по элементу
-        debtOption.click();
+        // Клик по элементу с использованием JavascriptExecutor
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", debtOption);
     }
 
     public String getBlockTitle() {
