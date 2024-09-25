@@ -9,14 +9,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MtsTests {
-
     private WebDriver driver;
     private WebDriverWait wait;
     private MainPage homePage;
@@ -34,7 +30,6 @@ public class MtsTests {
         homePage = new MainPage(driver);
         paymentPage = new ReplenishmentPage(driver);
     }
-
     @Test
     @DisplayName("Проверка заголовка блока для выбранной услуги")
     public void testCheckBlockTitle() {
@@ -46,7 +41,6 @@ public class MtsTests {
         String expectedBlockTitle = "Онлайн пополнение без комиссии";
         assertEquals(expectedBlockTitle, actualBlockTitle, "Заголовок блока не совпадает.");
     }
-
     @Test
     @DisplayName("Проверка наличия логотипов платежных систем на странице")
     public void testPaymentSystemLogos() {
@@ -58,7 +52,6 @@ public class MtsTests {
         assertTrue(homePage.isMastercardLogoDisplayed(), "Логотип MasterCard не найден.");
         assertTrue(homePage.isBelkartLogoDisplayed(), "Логотип Белкарт не найден.");
     }
-
     @Test
     @DisplayName("Проверка работы ссылки 'Подробнее о сервисе'")
     public void testMoreAboutServiceLink() {
@@ -74,7 +67,6 @@ public class MtsTests {
         String currentUrl = driver.getCurrentUrl();
         assertEquals(expectedUrl, currentUrl, "URL после нажатия на ссылку не соответствует ожидаемому.");
     }
-
     @Test
     @DisplayName("Проверка плейсхолдеров в формах оплаты для всех услуг")
     public void testCheckPlaceholdersForAllPaymentOptions() {
@@ -88,40 +80,28 @@ public class MtsTests {
         assertEquals("Номер телефона", paymentPage.getPhonePlaceholderText(), "Плейсхолдер для услуги связи неверен.");
         assertEquals("Сумма", paymentPage.getSumPlaceholderText(), "Плейсхолдер для суммы неверен.");
         assertEquals("E-mail для отправки чека", paymentPage.getEmailPlaceholderText(), "Плейсхолдер для email неверен.");
-
         homePage.selectInternetOption();
         paymentPage.scrollToElement(By.id("internet-phone"));
-
         assertEquals("Номер абонента", paymentPage.getInternetPhonePlaceholderText(), "Плейсхолдер для домашнего интернета неверен.");
-
         homePage.selectInstallmentOption();
         paymentPage.scrollToElement(By.id("score-instalment"));
-
         assertEquals("Номер счета на 44", paymentPage.getInstallmentPhonePlaceholderText(), "Плейсхолдер для рассрочки неверен.");
-
         homePage.selectDebtOption();
         paymentPage.scrollToElement(By.id("score-arrears"));
-
         assertEquals("Номер счета на 2073", paymentPage.getDebtPhonePlaceholderText(), "Плейсхолдер для задолженности неверен.");
     }
-
     @Test
     @DisplayName("Проверка корректности заполнения онлайн-формы и отображения информации об оплате")
     public void testOnlinePaymentForm() {
         homePage.acceptCookies();
         homePage.openDropdown();
         homePage.selectServiceOption("Услуги связи");
-
         String phoneNumber = "297777777";
         String amount = "30";
-
         paymentPage.fillPaymentForm(phoneNumber, amount, "test@mail.ru");
         paymentPage.clickSubmitButton();
-
         assertTrue(paymentPage.isPaymentDetailsWindowDisplayed(), "Окно подтверждения оплаты не отображается.");
-
         paymentPage.switchToPaymentFrame();
-
         assertEquals(formatPhoneNumber(phoneNumber), paymentPage.getDisplayedPhone(), "Номер телефона отображается неверно.");
         assertEquals(formatAmount(amount), paymentPage.getDisplayedSum(), "Сумма отображается неверно.");
         assertTrue(paymentPage.getPaymentButtonText().contains(amount), "Текст на кнопке неверен.");
@@ -130,24 +110,19 @@ public class MtsTests {
 
         paymentPage.switchToDefaultContent();
     }
-
-
     @AfterEach
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
-
     private String formatPhoneNumber(String phoneNumber) {
         return "Оплата: Услуги связи Номер:375" + phoneNumber;
     }
-
     private String formatAmount(String amount) {
         if (!amount.contains(".")) {
             amount += ".00";
         }
         return amount + " BYN";
     }
-
 }
